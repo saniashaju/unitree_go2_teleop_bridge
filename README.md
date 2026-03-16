@@ -15,7 +15,7 @@ To establish a stable, low-latency control link between a Laptop (ROS 2 Jazzy) a
 * **Low Latency:** Achieved sub-50ms control response and a real-time pilot-view video feed by bypassing heavy ROS image transport layers.
 
 ## 📺 Demo
-[Drag and drop your screen recording video file here to upload it]
+output.mp4
 
 ---
 
