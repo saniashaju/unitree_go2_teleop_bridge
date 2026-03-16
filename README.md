@@ -16,7 +16,6 @@ To establish a stable, low-latency control link between a Laptop (ROS 2 Jazzy) a
 
 ## 📺 Demo
 
-![Teleoperation Demo](output.mp4)
 ---
 
 ## ⚙️ Usage Instructions
