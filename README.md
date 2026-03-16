@@ -15,7 +15,18 @@ To establish a stable, low-latency control link between a Laptop (ROS 2 Jazzy) a
 * **Low Latency:** Achieved sub-50ms control response and a real-time pilot-view video feed by bypassing heavy ROS image transport layers.
 
 ## 📺 Demo
+## 📺 Demo
+> **Hardware Verification:** Real-time teleoperation and vision stack demonstration.
 
+<p align="center">
+  <video src="Teleop.mp4" width="100%" controls>
+  </video>
+</p>
+
+### Technical Highlights:
+* **Motion:** Sub-50ms latency using Python-to-JSON API translation.
+* **Vision:** Direct GStreamer UDP pipeline for real-time H.264 streaming
+  
 ---
 
 ## ⚙️ Usage Instructions
