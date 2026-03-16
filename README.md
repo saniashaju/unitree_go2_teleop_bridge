@@ -10,65 +10,74 @@ To establish a stable, low-latency control link between a Laptop (ROS 2 Jazzy) a
 * **Vision:** GStreamer H.264 UDP Pipeline
 
 ## ✅ Key Achievements
-* **Protocol Translation:** Successfully mapped standard `geometry_msgs/Twist` velocities to the robot's SDK2 motion commands using a custom Python bridge.
+* **Protocol Translation:** Successfully mapped standard `geometry_msgs/Twist` velocities to the robot's SDK2 motion commands.
 * **Network Optimization:** Resolved `ddsi_udp_conn_write` errors by manually configuring Linux multicast routing tables.
 * **Low Latency:** Achieved sub-50ms control response and a real-time pilot-view video feed by bypassing heavy ROS image transport layers.
 
 ## 📺 Demo
 [Drag and drop your screen recording video file here to upload it]
 
+---
+
 ## ⚙️ Usage Instructions
 
-### 1. Host Laptop Network Setup
-Run these commands on your host laptop to ensure the multicast traffic can reach the robot's interface:
+### Step 1: Host Laptop Network Setup
+Run these commands in a regular terminal on your laptop to fix the multicast routes:
 ```bash
 sudo ip route add 224.0.0.0/4 dev enp2s0
 sudo ip route add 230.1.1.1 dev enp2s0
+Step 2: Initialize Docker Environment
+Launch the container and source the workspace:
+
+Bash
 docker run -it --net=host --privileged -v ~/unitree_ros2_ws:/unitree_ros2_ws ros:jazzy
 
-# Inside Docker Container:
+# Inside Docker:
 source /opt/ros/jazzy/setup.bash
 source /unitree_ros2_ws/src/unitree_ros2/install/setup.bash
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-
-Terminal A (The Bridge):
+Step 3: Start the Control Bridge (Terminal A)
+Run the translation logic:
 
 Bash
 python3 bridge.py
-
-Terminal B (The Keyboard Controller):
+Step 4: Launch Keyboard Controller (Terminal B)
+In a new terminal, enter the container and start the teleop node:
 
 Bash
-# Open a second terminal and exec into the container
 docker exec -it $(docker ps -lq) bash
 source /opt/ros/jazzy/setup.bash
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
+Step 5: Physical Hardware Handover
+Follow this sequence on the Unitree Remote to allow laptop control:
 
-Launch Live Video (Host Laptop)
-Run this in a regular terminal on your laptop to view the Go2 camera feed:
+Press L2 + Start (Listen for the beep).
 
+Press L2 + B (Switches to Sport Mode for external commands).
+
+Step 6: Launch Live Vision Feed
+Run this on your host laptop (not in Docker) to see the camera:
+
+Bash
 gst-launch-1.0 udpsrc address=230.1.1.1 port=1720 ! application/x-rtp, media=video, encoding-name=H264 ! rtph264depay ! h264parse ! avdec_h264 ! videoconvert ! autovideosink sync=false
-
-Future Scope
+🚀 Future Scope
 Middleware Migration: Transitioning from CycloneDDS to FastDDS to optimize bandwidth for 3D LiDAR PointCloud visualization in RViz.
 
 Autonomy: Integrating YOLOv8 for autonomous object tracking using the established GStreamer feed.
 
-License
+📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 
 ---
 
-### **Final Pro-Step:**
-After you paste this and **drag your video file** into the demo section, your GitHub will be a complete portfolio piece. It shows you know:
-1.  **Docker** (DevOps for Robotics)
-2.  **Networking** (Routes/Multicast)
-3.  **Middleware** (DDS/RMW)
-4.  **Hardware API** (SDK Integration)
+### **How to finalize your GitHub now:**
+1. **Pencil Icon:** Go to GitHub and click the edit icon on your README.
+2. **Select All & Delete:** Clear everything out.
+3. **Paste:** Paste the text I gave you above.
+4. **Drag Video:** Drag your video file into the `[Drag and drop...]` section.
+5. **Commit:** Hit the green button to save.
 
-**Would you like me to help you draft the final "Project Completion" message
-
-
+**Would you like me to draft a message you can send to your mentor with the link to this repo?**
 
